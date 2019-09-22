@@ -7,9 +7,14 @@ if (globalThis.gauges !== undefined) {
 	//TODO: Make sure that the timestamps add up.
 	let len = Math.max(james.cfs.length, maury.cfs.length)
 	for (let i=0;i<len;i++) {
-		balconyGauge.cfs[i] = {
-			value: james.cfs[i].value + maury.cfs[i].value,
-			dateTime: james.cfs[i].dateTime
+		try {
+			balconyGauge.cfs[i] = {
+				value: james.cfs[i].value + maury.cfs[i].value,
+				dateTime: james.cfs[i].dateTime
+			}
+		}
+		catch(e) {
+			console.error(e)
 		}
 	}
 	
