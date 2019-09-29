@@ -5,23 +5,17 @@ function eliminateReleases(arr) {
 	arr = arr.map((value) => {return value-min})
 	
 	//Make everything change from previous.
-	let newArr = []
+	let changes = []
 	for (let i=1;i<arr.length;i++) {
-		newArr.push(arr[i] - arr[i-1])
+		changes.push(arr[i] - arr[i-1])
 	}
-	
+		
 	//Find an increase then level off.
 	//Find a decrease then level off.
 	//Handle nested releases. (Ex. added a turbine).
 	//Provide flow without release.
 	
-	let changes = []
-	
-	for (let i=0;i<newArr.length-1;i++) {
-		let change = newArr[i+1] - newArr[i]
-		changes.push(change)
-	}
-	
+		
 	let damChanges = changes.slice(0).sort((a, b) => {return Math.abs(b) - Math.abs(a)})
 	
 	//Look for a large gap in the changes - a point where the rate of change goes up down 3-5x
@@ -54,16 +48,22 @@ function eliminateReleases(arr) {
 		results.push(current)
 	}
 	
-	return results
+	return {
+		min,
+		start: arr[0] + min,
+		changes,
+		causedByDam: damChanges, //CFS value changes caused by a dam
+		results //Flow data with dam releases removed.
+	}
 }
 
 
-console.log(eliminateReleases([110,99,107,312,715,699,710,701,719,720,709,323,109,110,111]))
+//console.log(eliminateReleases([110,99,107,312,715,699,710,701,719,720,709,323,109,110,111]))
 
-console.log(eliminateReleases([72.4,69.1,67.4,65.8,64.3,64.3,62.7,64.3,576,639,633,633,639,652,639,639,646,646,639,639,646,646,639,646,652,659,659,665,659,659,665,665,659,659,659,659,541,320,212,155,120,101,88.6,83,110,120,150]))
+//console.log(eliminateReleases([72.4,69.1,67.4,65.8,64.3,64.3,62.7,64.3,576,639,633,633,639,652,639,639,646,646,639,639,646,646,639,646,652,659,659,665,659,659,665,665,659,659,659,659,541,320,212,155,120,101,88.6,83,110,120,150]))
 
 
 
 module.exports = {
-	eliminateReleases
+	eliminateReleases,
 }
