@@ -1,29 +1,29 @@
 if (globalThis.gauges !== undefined) {
-	let james = gauges["02019500"]
-	let maury = gauges["02024000"]
-	
-	let balconyGauge = {cfs: []}
-	
+	let james = gauges["USGS:02019500"]
+	let maury = gauges["USGS:02024000"]
+
+	let balconyGauge = {readings: []}
+
 	//TODO: Make sure that the timestamps match.
-	let len = Math.max(james.cfs.length, maury.cfs.length)
+	let len = Math.max(james.readings.length, maury.readings.length)
 	for (let i=0;i<len;i++) {
 		try {
-			balconyGauge.cfs[i] = {
-				value: james.cfs[i].value + maury.cfs[i].value,
-				dateTime: james.cfs[i].dateTime
+			balconyGauge.readings[i] = {
+				cfs: james.readings[i].cfs + maury.readings[i].cfs,
+				dateTime: james.readings[i].dateTime
 			}
 		}
 		catch(e) {
 			console.error(e)
 		}
 	}
-	
+
 	balconyGauge.name = "James @ Buckhanan + Maury @ Buena Vista"
 	balconyGauge
 }
 else {
 	[
-		"02019500", //USGS 02019500 JAMES RIVER AT BUCHANAN, VA
-		"02024000" //USGS 02024000 MAURY RIVER NEAR BUENA VISTA, VA
+		"USGS:02019500", //USGS 02019500 JAMES RIVER AT BUCHANAN, VA
+		"USGS:02024000" //USGS 02024000 MAURY RIVER NEAR BUENA VISTA, VA
 	]
 }
