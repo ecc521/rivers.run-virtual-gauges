@@ -8,6 +8,7 @@ if (globalThis.gauges !== undefined) {
 	let len = Math.max(james.readings.length, maury.readings.length)
 	for (let i=0;i<len;i++) {
 		try {
+			if (!james.readings[i] || !maury.readings[i]) {continue;} //Avoid unneeded error messages
 			balconyGauge.readings[i] = {
 				cfs: james.readings[i].cfs + maury.readings[i].cfs,
 				dateTime: james.readings[i].dateTime
