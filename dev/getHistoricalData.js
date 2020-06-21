@@ -29,5 +29,6 @@ console.log("Requesting data for sites: " + siteCodes.join(", "))
 let timeInPast = Date.now() - new Date(startTime).getTime()
 let timeInFuture = -(Date.now() - new Date(endTime).getTime())
 USGS.loadSitesFromUSGS(siteCodes, timeInPast, timeInFuture).then((sites) => {
+	console.log("Loading finished. ")
 	fs.writeFileSync(outputLocation, JSON.stringify(sites, null, "\t"))
 })
