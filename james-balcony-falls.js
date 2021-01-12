@@ -1,4 +1,4 @@
-if (globalThis.gauges !== undefined) {
+if (gauges) {
 	let james = gauges["USGS:02019500"]
 	let maury = gauges["USGS:02024000"]
 

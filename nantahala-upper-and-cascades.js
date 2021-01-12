@@ -1,6 +1,4 @@
-if (globalThis.gauges !== undefined) {
-	let damReleases = requireUtil("damReleases.js")
-
+if (gauges) {
 	let nantahala = gauges["USGS:03505550"]
 	//TODO: Check if 03504000 Nantahala Rainbow Springs is related to this.
 	//It may be above the dam or something, and there could be some minimum outflow based on inflow.
