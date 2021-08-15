@@ -4,20 +4,39 @@ if (gauges) {
 
 	let balconyGauge = {readings: []}
 
-	//TODO: Make sure that the timestamps match.
-	let len = Math.max(james.readings.length, maury.readings.length)
-	for (let i=0;i<len;i++) {
-		try {
-			if (!james.readings[i] || !maury.readings[i]) {continue;} //Avoid unneeded error messages
-			balconyGauge.readings[i] = {
-				cfs: james.readings[i].cfs + maury.readings[i].cfs,
-				dateTime: james.readings[i].dateTime
-			}
+	let timestamps = Object.create(null)
+
+	james.readings.forEach((reading) => {
+		if (!timestamps[reading.dateTime]) {
+			timestamps[reading.dateTime] = {}
 		}
-		catch(e) {
-			console.error(e)
+		timestamps[reading.dateTime].james = reading
+	})
+
+	maury.readings.forEach((reading) => {
+		if (!timestamps[reading.dateTime]) {
+			timestamps[reading.dateTime] = {}
 		}
-	}
+		timestamps[reading.dateTime].maury = reading
+	})
+
+
+	let times = Object.keys(timestamps).map(str => Number(str)).sort((a, b) => a-b)
+
+	let lastJames;
+	let lastMaury;
+
+	times.forEach((timestamp) => {
+		lastJames = timestamps[timestamp].james || lastJames
+		lastMaury = timestamps[timestamp].maury || lastMaury
+
+		if (lastJames && lastMaury) {
+			balconyGauge.readings.push({
+				cfs: lastJames.cfs + lastMaury.cfs,
+				dateTime: timestamp
+			})
+		}
+	})
 
 	balconyGauge.name = "James @ Buckhanan + Maury @ Buena Vista"
 	balconyGauge
